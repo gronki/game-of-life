@@ -1,3 +1,6 @@
 /gameoflife
 /sdltest
-/f08sdl2/libf08sdl2.a
+*.a
+*.o
+*.mod
+*.so

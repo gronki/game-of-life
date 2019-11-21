@@ -16,10 +16,10 @@ $(PROGRAMS): %: %.f90 | f08sdl2
 
 f08sdl2:
 	$(MAKE) -C $(f08sdl2) FC="$(FC)" FFLAGS="$(FFLAGS) -fpic"
-	cd $(f08sdl2) && $(AR) rcs libf08sdl2.a sdl2.o
+	$(AR) rcs libf08sdl2.a $(f08sdl2)/sdl2.o
 
 clean:
-	$(RM) *.mod *.smod *.o $(PROGRAMS)
+	$(RM) *.mod *.smod *.o *.a $(PROGRAMS)
 	$(MAKE) -C f08sdl2 clean
 
 .PHONY: all f08sdl2 clean
