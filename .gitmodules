@@ -1,0 +1,3 @@
+[submodule "f08sdl2"]
+	path = f08sdl2
+	url = https://github.com/interkosmos/f08sdl2.git
