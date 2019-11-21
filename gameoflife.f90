@@ -33,14 +33,16 @@ program gameoflife
 
   allocate(plane(0:n1+1, 0:n2+1))
 
-  populate_plane: block
-    real, dimension(0:n1+1, 0:n2+1) :: a, b, c
-    real :: thr
-    call random_number(a)
-    call random_number(thr)
-    thr = 0.2 + 0.6 * thr
-    plane(:,:) = (a < thr)
-  end block populate_plane
+  ! populate_plane: block
+  !   real, dimension(0:n1+1, 0:n2+1) :: a, b, c
+  !   real :: thr
+  !   call random_number(a)
+  !   call random_number(thr)
+  !   thr = 0.2 + 0.6 * thr
+  !   plane(:,:) = (a < thr)
+  ! end block populate_plane
+
+  plane(:,:) = .false.
 
   call repaint(renderer, plane)
   timer = 0
@@ -53,10 +55,19 @@ program gameoflife
       case (SDL_MOUSEBUTTONDOWN)
         edit_plane: block
           integer :: i, j
+          integer, parameter :: r = 5
+          real, allocatable :: a(:,:)
           i = floor(event % button % y / real(sqpix)) + 1
           j = floor(event % button % x / real(sqpix)) + 1
-          if (i >= 1 .and. i <= n1 .and. j >= 1 .and. j <= n2) &
-          &     plane(i,j) = event % button % button == 1
+          if (i >= 1 .and. i <= n1 .and. j >= 1 .and. j <= n2) then
+            associate (ilo => max(i - r, 1), ihi => min(i + r, n1), &
+              & jlo => max(j - r, 1), jhi => min(j + r, n2))
+              allocate(a(ilo:ihi,jlo:jhi))
+              call random_number(a)
+              plane(ilo:ihi,jlo:jhi) = plane(ilo:ihi,jlo:jhi) .neqv. (a < 0.33)
+              deallocate(a)
+            end associate
+          end if
           call repaint(renderer, plane)
         end block edit_plane
       case (SDL_KEYDOWN)
