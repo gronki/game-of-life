@@ -1,6 +1,5 @@
 FC := gfortran
-FFLAGS := -O3 -march=native
-# FFLAGS := -g -fcheck=all
+FFLAGS := -g -O3
 
 f08sdl2 := ./f08sdl2
 INCLUDE := -I $(f08sdl2) $(shell pkg-config --cflags sdl2)
