@@ -183,6 +183,12 @@ contains
           plane2(i,j) = rule_classic(plane(i,j), naround)
         end associate
       end do
+    case ('highlife')
+      do concurrent (i = 1:n1, j = 1:n2)
+        associate (naround => count(plane(i-1:i+1,j-1:j+1)) - merge(1, 0, plane(i,j)))
+          plane2(i,j) = rule_highlife(plane(i,j), naround)
+        end associate
+      end do
     case ('cellular')
       do concurrent (i = 1:n1, j = 1:n2)
         associate (naround => count(plane(i-1:i+1,j-1:j+1)) - merge(1, 0, plane(i,j)))
@@ -204,6 +210,16 @@ contains
       stay = n == 2 .or. n == 3
     else
       stay = n == 3
+    end if
+  end function
+  elemental function rule_highlife(alive, n) result(stay)
+    logical(1), intent(in) :: alive
+    integer, intent(in) :: n
+    logical(1) :: stay
+    if (alive) then
+      stay = n == 2 .or. n == 3
+    else
+      stay = n == 3 .or. n == 6
     end if
   end function
 
