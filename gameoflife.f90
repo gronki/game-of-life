@@ -13,11 +13,12 @@ program gameoflife
   logical :: autoplay = .false.
   character(len = 8) :: ruleset
 
-  ruleset = 'original'
+  call get_command_argument(1, ruleset)
+  if (ruleset == "") ruleset = 'original'
 
   rc = sdl_init(ior(SDL_INIT_VIDEO, SDL_INIT_TIMER))
 
-  window = sdl_create_window('game of life' // char(0), &
+  window = sdl_create_window('game of life (' // trim(ruleset) // ')' // char(0), &
   &   SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, &
   &   n2 * sqpix - 1, n1 * sqpix - 1, SDL_WINDOW_SHOWN)
 
