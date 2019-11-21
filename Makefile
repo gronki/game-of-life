@@ -5,7 +5,6 @@ FFLAGS := -O3 -march=native
 f08sdl2 := ./f08sdl2
 INCLUDE := -I $(f08sdl2) $(shell pkg-config --cflags sdl2)
 LDLIBS := -L $(f08sdl2) -lf08sdl2 $(shell pkg-config --libs sdl2)
-VPATH = . $(f08sdl2)
 
 PROGRAMS := sdltest gameoflife
 
